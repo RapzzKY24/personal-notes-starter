@@ -14,7 +14,8 @@ class NotesApp extends React.Component {
 
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
     this.onAddNoteHandler = this.onAddNoteHandler.bind(this);
-    this.onSearchHandler = this.onSearchHandler.bind(this); 
+    this.onSearchHandler = this.onSearchHandler.bind(this);
+    this.onArchiveHandler = this.onArchiveHandler.bind(this)
   }
 
   onDeleteHandler(id) {
@@ -40,6 +41,13 @@ class NotesApp extends React.Component {
     });
   }
 
+  onArchiveHandler(id) {
+    const notes = this.state.notes.map((note) =>
+      note.id === id ? { ...note, archived: !note.archived } : note
+    );
+    this.setState({ notes });
+  }
+
   onSearchHandler(keyword) {
     this.setState({ keyword });
   }
@@ -55,7 +63,17 @@ class NotesApp extends React.Component {
         <div className="note-app__body">
           <FormInput addNotes={this.onAddNoteHandler} />
           <h2>Catatan Aktif</h2>
-          <NoteList notes={filteredNotes} onDelete={this.onDeleteHandler} />
+          <NoteList
+            notes={filteredNotes.filter((note) => !note.archived)}
+            onDelete={this.onDeleteHandler}
+            onArchive={this.onArchiveHandler}
+          />
+          <h2>Catatan Arsip</h2>
+          <NoteList
+            notes={filteredNotes.filter((note) => note.archived)}
+            onDelete={this.onDeleteHandler}
+            onArchive={this.onArchiveHandler}
+          />
         </div>
       </>
     );

@@ -1,7 +1,7 @@
 import React from "react";
 import NoteItem from "./NoteItem";
 
-const NoteList = ({notes,onDelete}) => {
+const NoteList = ({notes,onDelete,onArchive}) => {
     return (
         <>
             <div className="notes-list">
@@ -11,6 +11,7 @@ const NoteList = ({notes,onDelete}) => {
                             key={note.id}
                             id={note.id}
                             onDelete={onDelete}
+                            onArchive={onArchive}
                             {...note}
                         />
                     ))
